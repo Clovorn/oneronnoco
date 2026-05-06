@@ -6,7 +6,9 @@ import Login from '@/pages/auth/Login'
 import ForgotPassword from '@/pages/auth/ForgotPassword'
 import DashboardPage from '@/pages/DashboardPage'
 import LeadsPage from '@/pages/leads/LeadsPage'
+import LeadDetailPage from '@/pages/leads/LeadDetailPage'
 import DealsPage from '@/pages/deals/DealsPage'
+import DealDetailPage from '@/pages/deals/DealDetailPage'
 import Spinner from '@/components/ui/Spinner'
 
 function RequireAuth({ children }) {
@@ -39,10 +41,10 @@ export default function App() {
           <Route index element={<Navigate to="/dashboard" replace />} />
           <Route path="dashboard" element={<DashboardPage />} />
           <Route path="leads" element={<LeadsPage />} />
-          <Route path="leads/:id" element={<div className="p-4 text-gray-500">Lead detail — coming in Phase 1 build</div>} />
+          <Route path="leads/:id" element={<LeadDetailPage />} />
           <Route path="leads/new" element={<div className="p-4 text-gray-500">New lead form — coming in Phase 1 build</div>} />
           <Route path="deals" element={<DealsPage />} />
-          <Route path="deals/:id" element={<div className="p-4 text-gray-500">Deal detail — coming in Phase 2 build</div>} />
+          <Route path="deals/:id" element={<DealDetailPage />} />
           <Route path="deals/new" element={<div className="p-4 text-gray-500">New deal form — coming in Phase 2 build</div>} />
           <Route path="velocity" element={<div className="p-4 text-gray-500">Velocity Intelligence — Phase 3</div>} />
           <Route path="reports" element={<div className="p-4 text-gray-500">Reports & Analytics — Phase 4</div>} />
