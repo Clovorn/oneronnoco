@@ -5,6 +5,8 @@ import AppShell from '@/components/layout/AppShell'
 import Login from '@/pages/auth/Login'
 import ForgotPassword from '@/pages/auth/ForgotPassword'
 import DashboardPage from '@/pages/DashboardPage'
+import ExecutiveDashboardPage from '@/pages/executive/ExecutiveDashboardPage'
+import AdminDashboardPage from '@/pages/admin/AdminDashboardPage'
 import LeadsPage from '@/pages/leads/LeadsPage'
 import LeadDetailPage from '@/pages/leads/LeadDetailPage'
 import DealsPage from '@/pages/deals/DealsPage'
@@ -42,6 +44,7 @@ export default function App() {
         <Route path="/" element={<RequireAuth><AppShell /></RequireAuth>}>
           <Route index element={<Navigate to="/dashboard" replace />} />
           <Route path="dashboard" element={<DashboardPage />} />
+          <Route path="executive" element={<ExecutiveDashboardPage />} />
           <Route path="leads" element={<LeadsPage />} />
           <Route path="leads/:id" element={<LeadDetailPage />} />
           <Route path="leads/new" element={<div className="p-4 text-gray-500">New lead form — coming in Phase 1 build</div>} />
@@ -51,7 +54,7 @@ export default function App() {
           <Route path="velocity" element={<VelocityPage />} />
           <Route path="velocity/upload" element={<VelocityUploadPage />} />
           <Route path="reports" element={<div className="p-4 text-gray-500">Reports & Analytics — Phase 4</div>} />
-          <Route path="admin/*" element={<div className="p-4 text-gray-500">Admin — Phase 1 partial, Phase 4 complete</div>} />
+          <Route path="admin/*" element={<AdminDashboardPage />} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Route>
       </Routes>

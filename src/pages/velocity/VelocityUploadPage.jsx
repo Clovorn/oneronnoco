@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { supabase } from '@/lib/supabase'
+import { parseSpreadsheetFile, requestVelocityMapping } from '@/lib/velocity'
+import MappingReview from '@/components/velocity/MappingReview'
 import { PageSpinner } from '@/components/ui/Spinner'
 import { formatNumber } from '@/utils/formatters'
 
@@ -19,6 +21,9 @@ export default function VelocityUploadPage() {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear())
   const [file, setFile] = useState(null)
   const [message, setMessage] = useState('')
+  const [mapping, setMapping] = useState(null)
+  const [sampleInfo, setSampleInfo] = useState(null)
+  const [submitting, setSubmitting] = useState(false)
 
   useEffect(() => {
     let mounted = true
@@ -48,8 +53,31 @@ export default function VelocityUploadPage() {
       return
     }
 
-    // This is the UI surface first. Full parsing/upload pipeline comes next.
-    setMessage(`Upload UI captured: ${file.name}. Next implementation step is wiring this to Supabase Storage + parser workflow.`)
+    setSubmitting(true)
+    setMessage('')
+    try {
+      const parsed = await parseSpreadsheetFile(file)
+      setSampleInfo({ headers: parsed.headers, sampleRows: parsed.sampleRows })
+
+      const profileName = `${selectedYear}-${String(selectedMonth).padStart(2, '0')} ${file.name}`
+      const result = await requestVelocityMapping({
+        headers: parsed.headers,
+        sampleRows: parsed.sampleRows,
+        distributorId: selectedDistributor,
+        profileName,
+      })
+
+      setMapping(result.mapping || {})
+      setMessage('File parsed and AI mapping suggestion generated. Next implementation step is persisting file storage + normalized row import.')
+    } catch (err) {
+      setMessage(`Upload parsing failed: ${err.message || err}`)
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  const updateMapping = (field, value) => {
+    setMapping((prev) => ({ ...(prev || {}), [field]: value }))
   }
 
   if (loading) return <PageSpinner />
@@ -98,7 +126,7 @@ export default function VelocityUploadPage() {
               <p className="text-xs text-gray-500 mt-2">This will become the upload + parse + mapping entrypoint for velocity imports.</p>
             </div>
 
-            <button type="submit" className="btn-primary">Queue Upload</button>
+            <button type="submit" className="btn-primary" disabled={submitting}>{submitting ? 'Processing…' : 'Analyze Upload'}</button>
             {message && <p className="text-sm text-gray-600">{message}</p>}
           </form>
         </div>
@@ -114,6 +142,10 @@ export default function VelocityUploadPage() {
           </ul>
         </div>
       </div>
+
+      {mapping && (
+        <MappingReview mapping={mapping} onChange={updateMapping} />
+      )}
 
       <div className="card p-0 overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-200">

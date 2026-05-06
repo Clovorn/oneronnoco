@@ -26,6 +26,9 @@ export function hasPermission(role, permission) {
 export function getNavItems(role) {
   const items = []
 
+  if (['admin', 'director'].includes(role)) {
+    items.push({ label: 'Executive', path: '/executive', icon: 'reports' })
+  }
   if (['admin', 'director', 'sales_rep'].includes(role)) {
     items.push({ label: 'Leads', path: '/leads', icon: 'leads' })
   }
