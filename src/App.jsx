@@ -9,6 +9,7 @@ import LeadsPage from '@/pages/leads/LeadsPage'
 import LeadDetailPage from '@/pages/leads/LeadDetailPage'
 import DealsPage from '@/pages/deals/DealsPage'
 import DealDetailPage from '@/pages/deals/DealDetailPage'
+import VelocityPage from '@/pages/velocity/VelocityPage'
 import Spinner from '@/components/ui/Spinner'
 
 function RequireAuth({ children }) {
@@ -46,7 +47,7 @@ export default function App() {
           <Route path="deals" element={<DealsPage />} />
           <Route path="deals/:id" element={<DealDetailPage />} />
           <Route path="deals/new" element={<div className="p-4 text-gray-500">New deal form — coming in Phase 2 build</div>} />
-          <Route path="velocity" element={<div className="p-4 text-gray-500">Velocity Intelligence — Phase 3</div>} />
+          <Route path="velocity" element={<VelocityPage />} />
           <Route path="reports" element={<div className="p-4 text-gray-500">Reports & Analytics — Phase 4</div>} />
           <Route path="admin/*" element={<div className="p-4 text-gray-500">Admin — Phase 1 partial, Phase 4 complete</div>} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
