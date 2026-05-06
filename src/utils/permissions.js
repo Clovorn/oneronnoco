@@ -38,6 +38,9 @@ export function getNavItems(role) {
   if (['admin', 'director', 'sales_rep'].includes(role)) {
     items.push({ label: 'Velocity', path: '/velocity', icon: 'velocity' })
   }
+  if (['admin', 'director', 'sales_rep', 'ops'].includes(role)) {
+    items.push({ label: 'Customers', path: '/customers', icon: 'deals' })
+  }
   if (['admin', 'director'].includes(role)) {
     items.push({ label: 'Reports', path: '/reports', icon: 'reports' })
   }
