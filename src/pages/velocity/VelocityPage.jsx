@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { supabase } from '@/lib/supabase'
 import { PageSpinner } from '@/components/ui/Spinner'
-import { formatCurrency, formatNumber } from '@/utils/formatters'
+import { formatNumber } from '@/utils/formatters'
 
 export default function VelocityPage() {
   const [loading, setLoading] = useState(true)
@@ -31,9 +32,12 @@ export default function VelocityPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900">Velocity Intelligence</h1>
-        <p className="text-sm text-gray-500 mt-1">Imported velocity uploads and records.</p>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Velocity Intelligence</h1>
+          <p className="text-sm text-gray-500 mt-1">Imported velocity uploads and records.</p>
+        </div>
+        <Link to="/velocity/upload" className="btn-primary">Upload Velocity File</Link>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
